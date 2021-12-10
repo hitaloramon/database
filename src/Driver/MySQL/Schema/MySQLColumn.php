@@ -139,6 +139,16 @@ class MySQLColumn extends AbstractColumn
     protected $autoIncrement = false;
 
     /**
+     * Column is on Update CURRENT_TIMESTAMP.
+     *
+     * @var bool
+     */
+    protected $onUpdate = false;
+
+    //
+    protected $attribute = null;
+
+    /**
      * {@inheritdoc}
      */
     public function sqlStatement(DriverInterface $driver): string
@@ -153,6 +163,15 @@ class MySQLColumn extends AbstractColumn
         $statement = parent::sqlStatement($driver);
 
         $this->defaultValue = $defaultValue;
+
+        if (!empty($this->attribute)) {
+            return "{$statement} {$this->attribute}";
+        }
+
+        if ($this->onUpdate) {
+            return "{$statement} ON UPDATE CURRENT_TIMESTAMP";
+        }
+
         if ($this->autoIncrement) {
             return "{$statement} AUTO_INCREMENT";
         }
