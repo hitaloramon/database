@@ -197,6 +197,15 @@ abstract class AbstractColumn implements ColumnInterface, ElementInterface
     protected $defaultValue = null;
 
     /**
+     * Custom
+     *
+     * @var mixed
+     */
+    protected $onUpdate = null;
+
+    protected $attribute = null;
+
+    /**
      * Column type size, can have different meanings for different datatypes.
      *
      * @var int
@@ -549,6 +558,20 @@ abstract class AbstractColumn implements ColumnInterface, ElementInterface
     public function nullable(bool $nullable = true): AbstractColumn
     {
         $this->nullable = $nullable;
+
+        return $this;
+    }
+
+    public function onUpdate(bool $onUpdate = false): AbstractColumn
+    {
+        $this->onUpdate = $onUpdate;
+
+        return $this;
+    }
+
+    public function attribute(string $attribute = null): AbstractColumn
+    {
+        $this->attribute = $attribute;
 
         return $this;
     }
