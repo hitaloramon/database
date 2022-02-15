@@ -31,6 +31,13 @@ interface IndexInterface
     public function isUnique(): bool;
 
     /**
+     * Check if index is fulltext.
+     *
+     * @return bool
+     */
+    public function isFullText(): bool;
+
+    /**
      * Column names used to form index.
      *
      * @return array
