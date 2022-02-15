@@ -186,7 +186,7 @@ abstract class AbstractColumn implements ColumnInterface, ElementInterface
      *
      * @var bool
      */
-    protected $nullable = true;
+    protected $nullable = false;
 
     /**
      * Default column value, may not be applied to some datatypes (for example to primary keys),
