@@ -118,7 +118,7 @@ abstract class AbstractIndex implements IndexInterface, ElementInterface
         return $this;
     }
 
-    public function fulltext(bool $fulltext = false): AbstractIndex #index_fulltext
+    public function fulltext(bool $fulltext = true): AbstractIndex #index_fulltext
     {
         $this->type = $fulltext ? self::FULLTEXT : self::NORMAL;
 
