@@ -28,6 +28,7 @@ abstract class AbstractIndex implements IndexInterface, ElementInterface
      */
     public const NORMAL = 'INDEX';
     public const UNIQUE = 'UNIQUE';
+    public const FULLTEXT = 'FULLTEXT'; #index_fulltext
 
     /**
      * Index type, by default NORMAL and UNIQUE indexes supported, additional types can be
@@ -69,6 +70,11 @@ abstract class AbstractIndex implements IndexInterface, ElementInterface
         return $this->type === self::UNIQUE;
     }
 
+    public function isFullText(): bool #index_fulltext
+    {
+        return $this->type === self::FULLTEXT;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -108,6 +114,13 @@ abstract class AbstractIndex implements IndexInterface, ElementInterface
     public function unique(bool $unique = true): AbstractIndex
     {
         $this->type = $unique ? self::UNIQUE : self::NORMAL;
+
+        return $this;
+    }
+
+    public function fulltext(bool $fulltext = false): AbstractIndex #index_fulltext
+    {
+        $this->type = $fulltext ? self::FULLTEXT : self::NORMAL;
 
         return $this;
     }
@@ -159,7 +172,11 @@ abstract class AbstractIndex implements IndexInterface, ElementInterface
      */
     public function sqlStatement(DriverInterface $driver, bool $includeTable = true): string
     {
-        $statement = [$this->isUnique() ? 'UNIQUE INDEX' : 'INDEX'];
+        if ($this->isFullText()) { #index_fulltext
+            $statement = [$this->isFullText() ? 'FULLTEXT INDEX' : 'INDEX']; #index_fulltext
+        } else {
+            $statement = [$this->isUnique() ? 'UNIQUE INDEX' : 'INDEX'];
+        }
 
         $statement[] = $driver->identifier($this->name);
 
